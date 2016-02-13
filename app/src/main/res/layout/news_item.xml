@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="5dip">
+
+    <!-- Left Thumbnail image -->
+
+    <ImageView
+        android:id="@+id/img_thumbnail"
+        android:layout_width="50dip"
+        android:layout_height="50dip"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="10dp" />
+
+    <!-- Description -->
+
+    <TextView
+        android:id="@+id/description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/img_thumbnail"
+        android:layout_toRightOf="@+id/img_thumbnail"
+        android:textColor="#040404"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:typeface="sans"
+        tools:text="This should be a long description like this example that I'm showing." />
+
+    <!-- Author -->
+
+    <TextView
+        android:id="@+id/author"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/description"
+        android:layout_alignStart="@+id/description"
+        android:layout_below="@+id/description"
+        android:textColor="#343434"
+        android:textSize="10sp"
+        tools:ignore="SmallSp"
+        tools:text="Author 123" />
+
+    <!-- Comments -->
+
+    <TextView
+        android:id="@+id/comments"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/author"
+        android:layout_alignRight="@+id/author"
+        android:layout_below="@+id/description"
+        android:gravity="right"
+        android:textColor="#10bcc9"
+        android:textSize="10sp"
+        android:textStyle="bold"
+        tools:ignore="SmallSp"
+        tools:text="30012 comments" />
+
+    <!-- Time -->
+
+    <TextView
+        android:id="@+id/time"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/author"
+        android:layout_alignStart="@+id/author"
+        android:layout_below="@+id/author"
+        android:textColor="#343434"
+        android:textSize="10sp"
+        tools:ignore="SmallSp"
+        tools:text="12 hours ago" />
+
+</RelativeLayout>
