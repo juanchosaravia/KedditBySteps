@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import com.droidcba.kedditbysteps.commons.adapter.ViewType
 import com.droidcba.kedditbysteps.commons.adapter.ViewTypeDelegateAdapter
 import com.droidcba.kedditbysteps.R
-import com.droidcba.kedditbysteps.commons.inflate
+import com.droidcba.kedditbysteps.commons.extensions.inflate
 
 class LoadingDelegateAdapter : ViewTypeDelegateAdapter {
 
