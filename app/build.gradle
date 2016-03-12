@@ -32,6 +32,9 @@ dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
     compile 'com.squareup.picasso:picasso:2.5.2'
+
+    // RxJava
+    compile 'io.reactivex:rxjava:1.0.14'
 }
 buildscript {
     ext.kotlin_version = '1.0.0'
