@@ -2,18 +2,18 @@ package com.droidcba.kedditbysteps.features.news
 
 import android.os.Bundle
 import android.support.design.widget.Snackbar
-import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.droidcba.kedditbysteps.R
+import com.droidcba.kedditbysteps.commons.RxBaseFragment
 import com.droidcba.kedditbysteps.commons.extensions.inflate
 import com.droidcba.kedditbysteps.features.news.adapter.NewsAdapter
 import kotlinx.android.synthetic.main.news_fragment.*
 import rx.schedulers.Schedulers
 
-class NewsFragment : Fragment() {
+class NewsFragment : RxBaseFragment() {
 
     private val newsManager by lazy { NewsManager() }
 
@@ -44,6 +44,7 @@ class NewsFragment : Fragment() {
                             Snackbar.make(news_list, e.message ?: "", Snackbar.LENGTH_LONG).show()
                         }
                 )
+        subscriptions.add(subscription)
     }
 
     private fun initAdapter() {
