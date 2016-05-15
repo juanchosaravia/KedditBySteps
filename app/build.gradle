@@ -43,7 +43,7 @@ dependencies {
     compile "com.squareup.retrofit2:converter-moshi:2.0.0"
 }
 buildscript {
-    ext.kotlin_version = '1.0.0'
+    ext.kotlin_version = '1.0.2'
     repositories {
         mavenCentral()
     }
