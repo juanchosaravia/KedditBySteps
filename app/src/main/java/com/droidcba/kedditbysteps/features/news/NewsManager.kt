@@ -1,6 +1,7 @@
 package com.droidcba.kedditbysteps.features.news
 
-import com.droidcba.kedditbysteps.api.RestAPI
+import com.droidcba.kedditbysteps.api.NewsAPI
+import com.droidcba.kedditbysteps.api.NewsRestAPI
 import com.droidcba.kedditbysteps.commons.RedditNews
 import com.droidcba.kedditbysteps.commons.RedditNewsItem
 import rx.Observable
@@ -10,7 +11,7 @@ import rx.Observable
  *
  * @author juancho
  */
-class NewsManager(private val api: RestAPI = RestAPI()) {
+class NewsManager(private val api: NewsAPI = NewsRestAPI()) {
 
     /**
      *
