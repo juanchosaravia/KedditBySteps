@@ -98,5 +98,3 @@ class NewsManagerTest {
         assert(testSub.onErrorEvents.size == 1)
     }
 }
-
-inline fun <reified T : Any> mock(): T = Mockito.mock(T::class.java)

@@ -39,11 +39,12 @@ dependencies {
 
 
     // Retrofit
-    compile "com.squareup.retrofit2:retrofit:2.0.0"
-    compile "com.squareup.retrofit2:converter-moshi:2.0.0"
+    compile 'com.squareup.retrofit2:retrofit:2.0.0'
+    compile 'com.squareup.retrofit2:converter-moshi:2.0.0'
 
     // Tests
-    testCompile "org.mockito:mockito-core:1.+"
+    testCompile 'org.mockito:mockito-core:1.+'
+    testCompile 'org.jetbrains.spek:spek:1.0.+'
 }
 buildscript {
     ext.kotlin_version = '1.0.2'
@@ -56,4 +57,7 @@ buildscript {
 }
 repositories {
     mavenCentral()
+    maven {
+        url "http://repository.jetbrains.com/all"
+    }
 }
