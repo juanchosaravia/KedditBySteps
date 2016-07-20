@@ -6,6 +6,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.droidcba.kedditbysteps.KedditApp
 import com.droidcba.kedditbysteps.R
 import com.droidcba.kedditbysteps.commons.InfiniteScrollListener
 import com.droidcba.kedditbysteps.commons.RedditNews
@@ -15,6 +16,7 @@ import com.droidcba.kedditbysteps.features.news.adapter.NewsAdapter
 import kotlinx.android.synthetic.main.news_fragment.*
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
+import javax.inject.Inject
 
 class NewsFragment : RxBaseFragment() {
 
@@ -22,8 +24,13 @@ class NewsFragment : RxBaseFragment() {
         private val KEY_REDDIT_NEWS = "redditNews"
     }
 
+    @Inject lateinit var newsManager: NewsManager
     private var redditNews: RedditNews? = null
-    private val newsManager by lazy { NewsManager() }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        KedditApp.newsComponent.inject(this)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return container?.inflate(R.layout.news_fragment)
@@ -60,9 +67,9 @@ class NewsFragment : RxBaseFragment() {
 
     private fun requestNews() {
         /**
-         * first time will send empty string for after parameter.
+         * first time will send empty string for 'after' parameter.
          * Next time we will have redditNews set with the next page to
-         * navigate with the after param.
+         * navigate with the 'after' param.
          */
         val subscription = newsManager.getNews(redditNews?.after ?: "")
                 .subscribeOn(Schedulers.io())

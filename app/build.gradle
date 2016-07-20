@@ -23,7 +23,9 @@ android {
         main.java.srcDirs += 'src/main/kotlin'
     }
 }
-
+kapt {
+    generateStubs = true
+}
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
@@ -41,6 +43,11 @@ dependencies {
     // Retrofit
     compile 'com.squareup.retrofit2:retrofit:2.0.0'
     compile 'com.squareup.retrofit2:converter-moshi:2.0.0'
+
+    // Dagger 2
+    compile 'com.google.dagger:dagger:2.4'
+    kapt 'com.google.dagger:dagger-compiler:2.4'
+    provided 'org.glassfish:javax.annotation:10.0-b28'
 
     // Tests
     testCompile 'org.mockito:mockito-core:1.+'
