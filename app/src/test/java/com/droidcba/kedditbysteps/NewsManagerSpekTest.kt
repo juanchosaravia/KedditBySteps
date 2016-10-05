@@ -3,11 +3,11 @@ package com.droidcba.kedditbysteps
 import com.droidcba.kedditbysteps.api.*
 import com.droidcba.kedditbysteps.commons.RedditNews
 import com.droidcba.kedditbysteps.features.news.NewsManager
+import com.nhaarman.mockito_kotlin.any
+import com.nhaarman.mockito_kotlin.whenever
 import okhttp3.MediaType
 import okhttp3.ResponseBody
 import org.jetbrains.spek.api.Spek
-import org.mockito.Mockito.`when`
-import org.mockito.Mockito.anyString
 import retrofit2.Call
 import retrofit2.Response
 import rx.observers.TestSubscriber
@@ -29,7 +29,7 @@ class NewsManagerSpekTest : Spek({
             testSub = TestSubscriber<RedditNews>()
             apiMock = mock<NewsAPI>()
             callMock = mock<Call<RedditNewsResponse>>()
-            `when`(apiMock.getNews(anyString(), anyString())).thenReturn(callMock)
+            whenever(apiMock.getNews(any(), any())).thenReturn(callMock)
         }
 
         on("service returns something") {
@@ -38,7 +38,7 @@ class NewsManagerSpekTest : Spek({
                 val redditNewsResponse = RedditNewsResponse(RedditDataResponse(listOf(), null, null))
                 val response = Response.success(redditNewsResponse)
 
-                `when`(callMock.execute()).thenReturn(response)
+                whenever(callMock.execute()).thenReturn(response)
 
                 // call
                 val newsManager = NewsManager(apiMock)
@@ -67,7 +67,7 @@ class NewsManagerSpekTest : Spek({
                 val redditNewsResponse = RedditNewsResponse(RedditDataResponse(listOf(newsResponse), null, null))
                 val response = Response.success(redditNewsResponse)
 
-                `when`(callMock.execute()).thenReturn(response)
+                whenever(callMock.execute()).thenReturn(response)
 
                 // call
                 val newsManager = NewsManager(apiMock)
@@ -90,7 +90,7 @@ class NewsManagerSpekTest : Spek({
                 val responseError = Response.error<RedditNewsResponse>(500,
                         ResponseBody.create(MediaType.parse("application/json"), ""))
 
-                `when`(callMock.execute()).thenReturn(responseError)
+                whenever(callMock.execute()).thenReturn(responseError)
 
                 // call
                 val newsManager = NewsManager(apiMock)
