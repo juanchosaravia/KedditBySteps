@@ -75,10 +75,4 @@
         tools:ignore="SmallSp"
         tools:text="12 hours ago" />
 
-    <!--url-->
-    <TextView
-        android:id="@+id/url"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"/>
 </RelativeLayout>
