@@ -1,6 +1,7 @@
 package com.droidcba.kedditbysteps.features.news.adapter
 
 import android.support.v7.widget.RecyclerView
+import android.view.View
 import android.view.ViewGroup
 import com.droidcba.kedditbysteps.R
 import com.droidcba.kedditbysteps.commons.RedditNewsItem
@@ -11,7 +12,11 @@ import com.droidcba.kedditbysteps.commons.extensions.inflate
 import com.droidcba.kedditbysteps.commons.extensions.loadImg
 import kotlinx.android.synthetic.main.news_item.view.*
 
-class NewsDelegateAdapter : ViewTypeDelegateAdapter {
+class NewsDelegateAdapter(val viewActions: onViewSelectedListener) : ViewTypeDelegateAdapter {
+
+    interface onViewSelectedListener {
+        fun onItemSelected(url: String?)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
         return NewsViewHolder(parent)
@@ -22,7 +27,7 @@ class NewsDelegateAdapter : ViewTypeDelegateAdapter {
         holder.bind(item as RedditNewsItem)
     }
 
-    class NewsViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
+    inner class NewsViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
             parent.inflate(R.layout.news_item)) {
 
         fun bind(item: RedditNewsItem) = with(itemView) {
@@ -32,6 +37,8 @@ class NewsDelegateAdapter : ViewTypeDelegateAdapter {
             author.text = item.author
             comments.text = "${item.numComments} comments"
             time.text = item.created.getFriendlyTime()
+
+            super.itemView.setOnClickListener { viewActions.onItemSelected(item.url)}
         }
     }
 }

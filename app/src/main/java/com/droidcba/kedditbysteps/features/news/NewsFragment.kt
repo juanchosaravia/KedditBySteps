@@ -1,5 +1,7 @@
 package com.droidcba.kedditbysteps.features.news
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.widget.LinearLayoutManager
@@ -13,12 +15,22 @@ import com.droidcba.kedditbysteps.commons.RedditNews
 import com.droidcba.kedditbysteps.commons.RxBaseFragment
 import com.droidcba.kedditbysteps.commons.extensions.inflate
 import com.droidcba.kedditbysteps.features.news.adapter.NewsAdapter
+import com.droidcba.kedditbysteps.features.news.adapter.NewsDelegateAdapter
 import kotlinx.android.synthetic.main.news_fragment.*
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 import javax.inject.Inject
 
-class NewsFragment : RxBaseFragment() {
+class NewsFragment : RxBaseFragment(), NewsDelegateAdapter.onViewSelectedListener {
+    override fun onItemSelected(url: String?) {
+        if (url.isNullOrEmpty()) {
+            Snackbar.make(news_list, "No URL assigned to this news", Snackbar.LENGTH_LONG).show()
+        } else {
+            val intent = Intent(Intent.ACTION_VIEW)
+            intent.data = Uri.parse(url)
+            startActivity(intent)
+        }
+    }
 
     companion object {
         private val KEY_REDDIT_NEWS = "redditNews"
@@ -60,7 +72,7 @@ class NewsFragment : RxBaseFragment() {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         val news = (news_list.adapter as NewsAdapter).getNews()
-        if (redditNews != null && news.size > 0) {
+        if (redditNews != null && news.isNotEmpty()) {
             outState.putParcelable(KEY_REDDIT_NEWS, redditNews?.copy(news = news))
         }
     }
@@ -88,7 +100,7 @@ class NewsFragment : RxBaseFragment() {
 
     private fun initAdapter() {
         if (news_list.adapter == null) {
-            news_list.adapter = NewsAdapter()
+            news_list.adapter = NewsAdapter(this)
         }
     }
 }
