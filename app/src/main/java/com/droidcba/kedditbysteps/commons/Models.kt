@@ -33,7 +33,7 @@ data class RedditNewsItem(
         val numComments: Int,
         val created: Long,
         val thumbnail: String,
-        val url: String
+        val url: String?
 ) : ViewType, Parcelable {
 
     override fun getViewType() = AdapterConstants.NEWS

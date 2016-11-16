@@ -22,10 +22,14 @@ import rx.schedulers.Schedulers
 import javax.inject.Inject
 
 class NewsFragment : RxBaseFragment(), NewsDelegateAdapter.onViewSelectedListener {
-    override fun onItemSelected(url: String) {
-        val intent = Intent(Intent.ACTION_VIEW)
-        intent.data = Uri.parse(url)
-        startActivity(intent)
+    override fun onItemSelected(url: String?) {
+        if (url.isNullOrEmpty()) {
+            Snackbar.make(news_list, "No URL assigned to this news", Snackbar.LENGTH_LONG).show()
+        } else {
+            val intent = Intent(Intent.ACTION_VIEW)
+            intent.data = Uri.parse(url)
+            startActivity(intent)
+        }
     }
 
     companion object {
@@ -68,7 +72,7 @@ class NewsFragment : RxBaseFragment(), NewsDelegateAdapter.onViewSelectedListene
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         val news = (news_list.adapter as NewsAdapter).getNews()
-        if (redditNews != null && news.size > 0) {
+        if (redditNews != null && news.isNotEmpty()) {
             outState.putParcelable(KEY_REDDIT_NEWS, redditNews?.copy(news = news))
         }
     }
