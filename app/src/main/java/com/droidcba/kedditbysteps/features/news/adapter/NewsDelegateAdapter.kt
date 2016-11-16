@@ -12,7 +12,7 @@ import com.droidcba.kedditbysteps.commons.extensions.inflate
 import com.droidcba.kedditbysteps.commons.extensions.loadImg
 import kotlinx.android.synthetic.main.news_item.view.*
 
-class NewsDelegateAdapter(val mCommit: onViewSelectedListener) : ViewTypeDelegateAdapter {
+class NewsDelegateAdapter(val viewActions: onViewSelectedListener) : ViewTypeDelegateAdapter {
 
     interface onViewSelectedListener {
         fun onItemSelected(url: String)
@@ -37,7 +37,7 @@ class NewsDelegateAdapter(val mCommit: onViewSelectedListener) : ViewTypeDelegat
             comments.text = "${item.numComments} comments"
             time.text = item.created.getFriendlyTime()
 
-            super.itemView.setOnClickListener( {mCommit.onItemSelected(item.url)} )
+            super.itemView.setOnClickListener { viewActions.onItemSelected(item.url)}
         }
     }
 }
