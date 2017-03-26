@@ -1,6 +1,6 @@
 package com.droidcba.kedditbysteps.api
 
-import retrofit2.Call
+import rx.Observable
 
 /**
  * News API
@@ -8,5 +8,5 @@ import retrofit2.Call
  * @author juancho.
  */
 interface NewsAPI {
-    fun getNews(after: String, limit: String): Call<RedditNewsResponse>
+    fun getNews(after: String, limit: String): Observable<RedditNewsResponse>
 }
