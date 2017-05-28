@@ -17,15 +17,11 @@ class NewsModule {
 
     @Provides
     @Singleton
-    fun provideNewsAPI(redditApi: RedditApi): NewsAPI {
-        return NewsRestAPI(redditApi)
-    }
+    fun provideNewsAPI(redditApi: RedditApi) = NewsRestAPI(redditApi)
 
     @Provides
     @Singleton
-    fun provideRedditApi(retrofit: Retrofit): RedditApi {
-        return retrofit.create(RedditApi::class.java)
-    }
+    fun provideRedditApi(retrofit: Retrofit) = retrofit.create(RedditApi::class.java)
 
     /**
      * NewsManager is automatically provided by Dagger as we set the @Inject annotation in the
