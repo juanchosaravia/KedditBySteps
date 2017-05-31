@@ -27,7 +27,7 @@ class NewsFragment : RxBaseFragment(), NewsDelegateAdapter.onViewSelectedListene
             Snackbar.make(news_list, "No URL assigned to this news", Snackbar.LENGTH_LONG).show()
         } else {
             val intent = Intent(Intent.ACTION_VIEW)
-            intent.data = Uri.parse(url)
+            intent.data = Uri.parse("https://www.reddit.com" + url)
             startActivity(intent)
         }
     }

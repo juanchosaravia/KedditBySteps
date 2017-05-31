@@ -16,5 +16,5 @@ class RedditNewsDataResponse(
         val num_comments: Int,
         val created: Long,
         val thumbnail: String,
-        val url: String?
+        val permalink: String?
 )
