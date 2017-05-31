@@ -1,5 +1,6 @@
 package com.droidcba.kedditbysteps.di
 
+import android.app.Application
 import android.content.Context
 import com.droidcba.kedditbysteps.KedditApp
 import dagger.Module
@@ -15,10 +16,14 @@ class AppModule(val app: KedditApp) {
 
     @Provides
     @Singleton
-    fun provideContext(): Context = app
+    fun provideContext(): Context {
+        return app
+    }
 
     @Provides
     @Singleton
-    fun provideApplication() = app
+    fun provideApplication() : Application {
+        return app
+    }
 
 }
