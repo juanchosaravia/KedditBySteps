@@ -16,14 +16,10 @@ class AppModule(val app: KedditApp) {
 
     @Provides
     @Singleton
-    fun provideContext(): Context {
-        return app
-    }
+    fun provideContext(): Context = app
 
     @Provides
     @Singleton
-    fun provideApplication() : Application {
-        return app
-    }
+    fun provideApplication() : Application = app
 
 }
