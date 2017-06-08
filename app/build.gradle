@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 25
@@ -23,9 +24,7 @@ android {
         main.java.srcDirs += 'src/main/kotlin'
     }
 }
-kapt {
-    generateStubs = true
-}
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:25.3.1'
@@ -44,8 +43,8 @@ dependencies {
     compile 'com.squareup.retrofit2:converter-moshi:2.0.0'
 
     // Dagger 2
-    compile 'com.google.dagger:dagger:2.4'
-    kapt 'com.google.dagger:dagger-compiler:2.4'
+    compile 'com.google.dagger:dagger:2.11'
+    kapt 'com.google.dagger:dagger-compiler:2.11'
     provided 'org.glassfish:javax.annotation:10.0-b28'
 
     // Tests
