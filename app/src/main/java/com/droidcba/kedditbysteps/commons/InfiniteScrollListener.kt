@@ -19,22 +19,22 @@ class InfiniteScrollListener(
         super.onScrolled(recyclerView, dx, dy)
 
         if (dy > 0) {
-            visibleItemCount = recyclerView.childCount;
-            totalItemCount = layoutManager.itemCount;
-            firstVisibleItem = layoutManager.findFirstVisibleItemPosition();
+            visibleItemCount = recyclerView.childCount
+            totalItemCount = layoutManager.itemCount
+            firstVisibleItem = layoutManager.findFirstVisibleItemPosition()
 
             if (loading) {
                 if (totalItemCount > previousTotal) {
-                    loading = false;
-                    previousTotal = totalItemCount;
+                    loading = false
+                    previousTotal = totalItemCount
                 }
             }
             if (!loading && (totalItemCount - visibleItemCount)
                     <= (firstVisibleItem + visibleThreshold)) {
                 // End has been reached
-                Log.i("InfiniteScrollListener", "End reached");
+                Log.i("InfiniteScrollListener", "End reached")
                 func()
-                loading = true;
+                loading = true
             }
         }
     }
