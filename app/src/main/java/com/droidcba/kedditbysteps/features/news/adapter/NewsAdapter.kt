@@ -24,21 +24,17 @@ class NewsAdapter(listener: NewsDelegateAdapter.onViewSelectedListener) : Recycl
         items.add(loadingItem)
     }
 
-    override fun getItemCount(): Int {
-        return items.size
-    }
+    override fun getItemCount(): Int = items.size
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return delegateAdapters.get(viewType).onCreateViewHolder(parent)
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
+            delegateAdapters.get(viewType).onCreateViewHolder(parent)
+
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        delegateAdapters.get(getItemViewType(position)).onBindViewHolder(holder, this.items[position])
+        delegateAdapters.get(getItemViewType(position)).onBindViewHolder(holder, items[position])
     }
 
-    override fun getItemViewType(position: Int): Int {
-        return this.items.get(position).getViewType()
-    }
+    override fun getItemViewType(position: Int) = items[position].getViewType()
 
     fun addNews(news: List<RedditNewsItem>) {
         // first remove loading and notify
@@ -61,11 +57,11 @@ class NewsAdapter(listener: NewsDelegateAdapter.onViewSelectedListener) : Recycl
         notifyItemRangeInserted(0, items.size)
     }
 
-    fun getNews(): List<RedditNewsItem> {
-        return items
+    fun getNews(): List<RedditNewsItem> =
+            items
                 .filter { it.getViewType() == AdapterConstants.NEWS }
                 .map { it as RedditNewsItem }
-    }
+
 
     private fun getLastPosition() = if (items.lastIndex == -1) 0 else items.lastIndex
 }
