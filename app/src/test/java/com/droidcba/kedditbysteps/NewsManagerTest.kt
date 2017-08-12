@@ -13,6 +13,7 @@ import retrofit2.Call
 import retrofit2.Response
 import rx.observers.TestSubscriber
 import java.util.*
+import kotlin.test.assertEquals
 
 /**
  * Unit Tests for NewsManager
@@ -77,8 +78,8 @@ class NewsManagerTest {
         testSub.assertValueCount(1)
         testSub.assertCompleted()
 
-        assert(testSub.onNextEvents[0].news[0].author == newsData.author)
-        assert(testSub.onNextEvents[0].news[0].title == newsData.title)
+        assertEquals(newsData.author, testSub.onNextEvents[0].news[0].author)
+        assertEquals(newsData.title, testSub.onNextEvents[0].news[0].title)
     }
 
     @Test
@@ -94,6 +95,6 @@ class NewsManagerTest {
         newsManager.getNews("").subscribe(testSub)
 
         // assert
-        assert(testSub.onErrorEvents.size == 1)
+        assertEquals(1, testSub.onErrorEvents.size)
     }
 }
