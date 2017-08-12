@@ -10,6 +10,7 @@ data class RedditNews(
         val before: String,
         val news: List<RedditNewsItem>) : Parcelable {
     companion object {
+        @Suppress("unused")
         @JvmField val CREATOR: Parcelable.Creator<RedditNews> = object : Parcelable.Creator<RedditNews> {
             override fun createFromParcel(source: Parcel): RedditNews = RedditNews(source)
             override fun newArray(size: Int): Array<RedditNews?> = arrayOfNulls(size)

@@ -10,17 +10,17 @@ fun Long.getFriendlyTime(): String {
     val current = Calendar.getInstance().time
     var diffInSeconds = ((current.time - dateTime.time) / 1000).toInt()
 
-    val sec = if (diffInSeconds >= 60) (diffInSeconds % 60).toInt() else diffInSeconds.toInt()
-    diffInSeconds = diffInSeconds / 60
-    val min = if (diffInSeconds >= 60) (diffInSeconds % 60).toInt() else diffInSeconds.toInt()
-    diffInSeconds = diffInSeconds / 60
-    val hrs = if (diffInSeconds >= 24) (diffInSeconds % 24).toInt() else diffInSeconds.toInt()
-    diffInSeconds = diffInSeconds / 24
-    val days = if (diffInSeconds >= 30) (diffInSeconds % 30).toInt() else diffInSeconds.toInt()
-    diffInSeconds = diffInSeconds / 30
-    var months = if (diffInSeconds >= 12) (diffInSeconds % 12).toInt() else diffInSeconds.toInt()
-    diffInSeconds = diffInSeconds / 12
-    val years = diffInSeconds.toInt()
+    val sec = if (diffInSeconds >= 60) (diffInSeconds % 60) else diffInSeconds
+    diffInSeconds /= 60
+    val min = if (diffInSeconds >= 60) (diffInSeconds % 60) else diffInSeconds
+    diffInSeconds /= 60
+    val hrs = if (diffInSeconds >= 24) (diffInSeconds % 24) else diffInSeconds
+    diffInSeconds /= 24
+    val days = if (diffInSeconds >= 30) (diffInSeconds % 30) else diffInSeconds
+    diffInSeconds /= 30
+    val months = if (diffInSeconds >= 12) (diffInSeconds % 12) else diffInSeconds
+    diffInSeconds /= 12
+    val years = diffInSeconds
 
     if (years > 0) {
         if (years == 1) {
