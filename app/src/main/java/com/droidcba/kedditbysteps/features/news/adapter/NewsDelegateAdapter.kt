@@ -29,9 +29,14 @@ class NewsDelegateAdapter(val viewActions: onViewSelectedListener) : ViewTypeDel
     inner class NewsViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
             parent.inflate(R.layout.news_item)) {
 
-        fun bind(item: RedditNewsItem) = with(itemView) {
-            //Picasso.with(itemView.context).load(item.thumbnail).into(img_thumbnail)
-            img_thumbnail.loadImg(item.thumbnail)
+        private val imgThumbnail = itemView.img_thumbnail
+        private val description = itemView.description
+        private val author = itemView.author
+        private val comments = itemView.comments
+        private val time = itemView.time
+
+        fun bind(item: RedditNewsItem) {
+            imgThumbnail.loadImg(item.thumbnail)
             description.text = item.title
             author.text = item.author
             comments.text = "${item.numComments} comments"
