@@ -3,15 +3,14 @@ package com.droidcba.kedditbysteps
 import com.droidcba.kedditbysteps.api.*
 import com.droidcba.kedditbysteps.commons.RedditNews
 import com.droidcba.kedditbysteps.features.news.NewsManager
+import com.droidcba.kedditbysteps.util.MockedCall
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.whenever
-import okhttp3.MediaType
-import okhttp3.ResponseBody
+import kotlinx.coroutines.experimental.runBlocking
 import org.jetbrains.spek.api.Spek
-import retrofit2.Call
-import retrofit2.Response
-import rx.observers.TestSubscriber
 import java.util.*
+import kotlin.test.assertFailsWith
+import kotlin.test.assertNotNull
 
 /**
  * Unit Tests for NewsManager using Spek
@@ -21,34 +20,30 @@ import java.util.*
 class NewsManagerSpekTest : Spek({
 
     given("a NewsManager") {
-        var testSub = TestSubscriber<RedditNews>()
+        var redditNews: RedditNews? = null
         var apiMock = mock<NewsAPI>()
-        var callMock = mock<Call<RedditNewsResponse>>()
 
         beforeEach {
-            testSub = TestSubscriber<RedditNews>()
+            redditNews = null
             apiMock = mock<NewsAPI>()
-            callMock = mock<Call<RedditNewsResponse>>()
-            whenever(apiMock.getNews(any(), any())).thenReturn(callMock)
         }
 
         on("service returns something") {
             beforeEach {
                 // prepare
                 val redditNewsResponse = RedditNewsResponse(RedditDataResponse(listOf(), null, null))
-                val response = Response.success(redditNewsResponse)
-
-                whenever(callMock.execute()).thenReturn(response)
+                val callMock = MockedCall<RedditNewsResponse>(redditNewsResponse)
+                whenever(apiMock.getNews(any(), any())).thenReturn(callMock)
 
                 // call
                 val newsManager = NewsManager(apiMock)
-                newsManager.getNews("").subscribe(testSub)
+                runBlocking {
+                    redditNews = newsManager.getNews("")
+                }
             }
 
             it("should receive something and no errors") {
-                testSub.assertNoErrors()
-                testSub.assertValueCount(1)
-                testSub.assertCompleted()
+                assertNotNull(redditNews)
             }
         }
 
@@ -65,40 +60,41 @@ class NewsManagerSpekTest : Spek({
                 // prepare
                 val newsResponse = RedditChildrenResponse(newsData)
                 val redditNewsResponse = RedditNewsResponse(RedditDataResponse(listOf(newsResponse), null, null))
-                val response = Response.success(redditNewsResponse)
-
-                whenever(callMock.execute()).thenReturn(response)
+                val callMock = MockedCall<RedditNewsResponse>(redditNewsResponse)
+                whenever(apiMock.getNews(any(), any())).thenReturn(callMock)
 
                 // call
                 val newsManager = NewsManager(apiMock)
-                newsManager.getNews("").subscribe(testSub)
+                runBlocking {
+                    redditNews = newsManager.getNews("")
+                }
             }
 
             it("should process only one news successfully") {
-                testSub.assertNoErrors()
-                testSub.assertValueCount(1)
-                testSub.assertCompleted()
-
-                assert(testSub.onNextEvents[0].news[0].author == newsData.author)
-                assert(testSub.onNextEvents[0].news[0].title == newsData.title)
+                assertNotNull(redditNews)
+                assert(redditNews!!.news[0].author == newsData.author)
+                assert(redditNews!!.news[0].title == newsData.title)
             }
         }
 
         on("service returns a 500 error") {
+            var newsManager: NewsManager? = null
+
             beforeEach {
                 // prepare
-                val responseError = Response.error<RedditNewsResponse>(500,
-                        ResponseBody.create(MediaType.parse("application/json"), ""))
-
-                whenever(callMock.execute()).thenReturn(responseError)
+                val callMock = MockedCall<RedditNewsResponse>(exception = Throwable())
+                whenever(apiMock.getNews(any(), any())).thenReturn(callMock)
 
                 // call
-                val newsManager = NewsManager(apiMock)
-                newsManager.getNews("").subscribe(testSub)
+                newsManager = NewsManager(apiMock)
             }
 
-            it("should receive an onError message") {
-                assert(testSub.onErrorEvents.size == 1)
+            it("should receive an exception") {
+                assertFailsWith<Throwable> {
+                    runBlocking {
+                        redditNews = newsManager!!.getNews("")
+                    }
+                }
             }
         }
     }

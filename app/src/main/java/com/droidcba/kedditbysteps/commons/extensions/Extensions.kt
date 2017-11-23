@@ -22,3 +22,5 @@ fun ImageView.loadImg(imageUrl: String) {
         Picasso.with(context).load(imageUrl).into(this)
     }
 }
+
+fun <T> androidLazy(initializer: () -> T) : Lazy<T> = lazy(LazyThreadSafetyMode.NONE, initializer)
