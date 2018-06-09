@@ -3,9 +3,10 @@ package com.droidcba.kedditbysteps
 import com.droidcba.kedditbysteps.api.*
 import com.droidcba.kedditbysteps.commons.RedditNews
 import com.droidcba.kedditbysteps.features.news.NewsManager
-import com.droidcba.kedditbysteps.util.MockedCall
-import com.nhaarman.mockito_kotlin.any
-import com.nhaarman.mockito_kotlin.whenever
+import com.nhaarman.mockitokotlin2.any
+import com.nhaarman.mockitokotlin2.doAnswer
+import com.nhaarman.mockitokotlin2.doReturn
+import com.nhaarman.mockitokotlin2.mock
 import kotlinx.coroutines.experimental.runBlocking
 import org.jetbrains.spek.api.Spek
 import java.util.*
@@ -21,19 +22,19 @@ class NewsManagerSpekTest : Spek({
 
     given("a NewsManager") {
         var redditNews: RedditNews? = null
-        var apiMock = mock<NewsAPI>()
+        var apiMock: NewsAPI
 
         beforeEach {
             redditNews = null
-            apiMock = mock<NewsAPI>()
         }
 
         on("service returns something") {
             beforeEach {
                 // prepare
                 val redditNewsResponse = RedditNewsResponse(RedditDataResponse(listOf(), null, null))
-                val callMock = MockedCall<RedditNewsResponse>(redditNewsResponse)
-                whenever(apiMock.getNews(any(), any())).thenReturn(callMock)
+                apiMock = mock {
+                    onBlocking { getNews(any(), any()) } doReturn redditNewsResponse
+                }
 
                 // call
                 val newsManager = NewsManager(apiMock)
@@ -60,9 +61,9 @@ class NewsManagerSpekTest : Spek({
                 // prepare
                 val newsResponse = RedditChildrenResponse(newsData)
                 val redditNewsResponse = RedditNewsResponse(RedditDataResponse(listOf(newsResponse), null, null))
-                val callMock = MockedCall<RedditNewsResponse>(redditNewsResponse)
-                whenever(apiMock.getNews(any(), any())).thenReturn(callMock)
-
+                apiMock = mock {
+                    onBlocking { getNews(any(), any()) } doReturn redditNewsResponse
+                }
                 // call
                 val newsManager = NewsManager(apiMock)
                 runBlocking {
@@ -82,8 +83,9 @@ class NewsManagerSpekTest : Spek({
 
             beforeEach {
                 // prepare
-                val callMock = MockedCall<RedditNewsResponse>(exception = Throwable())
-                whenever(apiMock.getNews(any(), any())).thenReturn(callMock)
+                apiMock = mock {
+                    onBlocking { getNews(any(), any()) } doAnswer { throw Throwable() }
+                }
 
                 // call
                 newsManager = NewsManager(apiMock)

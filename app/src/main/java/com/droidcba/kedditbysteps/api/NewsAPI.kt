@@ -8,5 +8,6 @@ import retrofit2.Call
  * @author juancho.
  */
 interface NewsAPI {
-    fun getNews(after: String, limit: String): Call<RedditNewsResponse>
+    fun getNewsOldApi(after: String, limit: String): Call<RedditNewsResponse>
+    suspend fun getNews(after: String, limit: String): RedditNewsResponse
 }

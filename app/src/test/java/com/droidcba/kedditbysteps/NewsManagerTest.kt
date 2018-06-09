@@ -5,13 +5,10 @@ package com.droidcba.kedditbysteps
 
 import com.droidcba.kedditbysteps.api.*
 import com.droidcba.kedditbysteps.features.news.NewsManager
-import com.droidcba.kedditbysteps.util.MockedCall
-import com.nhaarman.mockito_kotlin.any
-import com.nhaarman.mockito_kotlin.whenever
+import com.nhaarman.mockitokotlin2.*
 import kotlinx.coroutines.experimental.CoroutineScope
 import kotlinx.coroutines.experimental.Unconfined
 import kotlinx.coroutines.experimental.runBlocking
-import org.junit.Before
 import org.junit.Test
 import java.util.*
 import kotlin.test.assertEquals
@@ -25,17 +22,15 @@ import kotlin.test.assertNotNull
  */
 class NewsManagerTest {
 
-    var apiMock = mock<NewsAPI>()
-
-    @Before
-    fun setup() {
-        apiMock = mock<NewsAPI>()
-    }
+    private var apiMock = mock<NewsAPI>()
 
     @Test
     fun `Success - check response is not null`() = testBlocking {
         // prepare
-        RedditNewsResponse(RedditDataResponse(listOf(), null, null)).mockApiCall()
+        val news = RedditNewsResponse(RedditDataResponse(listOf(), null, null))
+        apiMock = mock {
+            onBlocking { getNews(any(), any()) } doReturn news
+        }
 
         // call
         val newsManager = NewsManager(apiMock)
@@ -58,8 +53,10 @@ class NewsManagerTest {
                 "url"
         )
         val newsResponse = RedditChildrenResponse(newsData)
-        RedditNewsResponse(RedditDataResponse(listOf(newsResponse), null, null))
-                .mockApiCall()
+        val news = RedditNewsResponse(RedditDataResponse(listOf(newsResponse), null, null))
+        apiMock = mock {
+            onBlocking { getNews(any(), any()) } doReturn news
+        }
 
         // call
         val newsManager = NewsManager(apiMock)
@@ -75,8 +72,9 @@ class NewsManagerTest {
     @Test
     fun `Error - Exception received from service call`() {
         // prepare
-        val callMock = MockedCall<RedditNewsResponse>(exception = Throwable())
-        whenever(apiMock.getNews(any(), any())).thenReturn(callMock)
+        apiMock = mock {
+            onBlocking { getNews(any(), any()) } doAnswer { throw Throwable() }
+        }
 
         // call
         val newsManager = NewsManager(apiMock)
@@ -89,10 +87,5 @@ class NewsManagerTest {
 
     private fun testBlocking(block: suspend CoroutineScope.() -> Unit) {
         runBlocking(Unconfined, block)
-    }
-
-    private fun RedditNewsResponse.mockApiCall() {
-        val callMock = MockedCall<RedditNewsResponse>(this)
-        whenever(apiMock.getNews(any(), any())).thenReturn(callMock)
     }
 }
