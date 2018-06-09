@@ -7,8 +7,7 @@ https://android.jlelse.eu/learn-kotlin-while-developing-an-android-app-introduct
 
 ## Libraries used:
 - Retrofit 2.0
-- RxJava
-- RxAndroid
+- Coroutines (previously with RxJava)
 - Picasso
 - Dagger 2
 - Kotlin Android Extensions
