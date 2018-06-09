@@ -13,4 +13,4 @@ https://android.jlelse.eu/learn-kotlin-while-developing-an-android-app-introduct
 - Kotlin Android Extensions
 
 ## App Preview
-![](https://cdn-images-1.medium.com/max/1600/1*LjA2bmJis-81xzwmcbcrZg.gif)
+<img src="https://cdn-images-1.medium.com/max/1600/1*LjA2bmJis-81xzwmcbcrZg.gif">
