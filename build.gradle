@@ -5,6 +5,7 @@ buildscript {
     repositories {
         jcenter()
         google()
+        maven { url "http://dl.bintray.com/jetbrains/spek" }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.1.3'

@@ -18,8 +18,6 @@ class KedditApp : Application() {
     override fun onCreate() {
         super.onCreate()
         newsComponent = DaggerNewsComponent.builder()
-                .appModule(AppModule(this))
-                //.newsModule(NewsModule()) Module with empty constructor is implicitly created by dagger.
                 .build()
     }
 }
