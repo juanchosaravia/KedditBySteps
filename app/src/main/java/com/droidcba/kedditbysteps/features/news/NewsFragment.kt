@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import com.droidcba.kedditbysteps.KedditApp
 import com.droidcba.kedditbysteps.R
 import com.droidcba.kedditbysteps.commons.InfiniteScrollListener
+import com.droidcba.kedditbysteps.commons.Logger
 import com.droidcba.kedditbysteps.commons.RedditNews
 import com.droidcba.kedditbysteps.commons.RxBaseFragment
 import com.droidcba.kedditbysteps.commons.extensions.androidLazy
@@ -38,7 +39,8 @@ class NewsFragment : RxBaseFragment(), NewsDelegateAdapter.onViewSelectedListene
         private val KEY_REDDIT_NEWS = "redditNews"
     }
 
-    @Inject lateinit var newsManager: NewsManager
+    @Inject
+    lateinit var newsManager: NewsManager
     private var redditNews: RedditNews? = null
     private val newsAdapter by androidLazy { NewsAdapter(this) }
 
@@ -86,9 +88,11 @@ class NewsFragment : RxBaseFragment(), NewsDelegateAdapter.onViewSelectedListene
          * Next time we will have redditNews set with the next page to
          * navigate with the 'after' param.
          */
-        job = launch(UI) {
+        launch(UI, parent = job) {
             try {
+                Logger.dt("UI starting")
                 val retrievedNews = newsManager.getNews(redditNews?.after.orEmpty())
+                Logger.dt("UI end with result")
                 redditNews = retrievedNews
                 newsAdapter.addNews(retrievedNews.news)
             } catch (e: Throwable) {

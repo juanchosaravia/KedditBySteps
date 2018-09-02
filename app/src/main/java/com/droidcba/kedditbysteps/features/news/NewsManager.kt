@@ -2,8 +2,11 @@ package com.droidcba.kedditbysteps.features.news
 
 import com.droidcba.kedditbysteps.api.NewsAPI
 import com.droidcba.kedditbysteps.api.RedditNewsResponse
+import com.droidcba.kedditbysteps.commons.Logger
 import com.droidcba.kedditbysteps.commons.RedditNews
 import com.droidcba.kedditbysteps.commons.RedditNewsItem
+import kotlinx.coroutines.experimental.CommonPool
+import kotlinx.coroutines.experimental.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -23,8 +26,12 @@ class NewsManager @Inject constructor(private val api: NewsAPI) {
      * @param limit the number of news to request.
      */
     suspend fun getNews(after: String, limit: String = "10"): RedditNews {
-        val result = api.getNews(after, limit)
-        return process(result)
+        return withContext(CommonPool) {
+            Logger.dt("NewsManager: before API call")
+            val result = api.getNews(after, limit).await()
+            Logger.dt("NewsManager: after API call")
+            process(result)
+        }
     }
 
     private fun process(response: RedditNewsResponse): RedditNews {

@@ -5,16 +5,15 @@ import kotlinx.coroutines.experimental.Job
 
 open class RxBaseFragment : Fragment() {
 
-    protected var job: Job? = null
+    protected var job = Job()
 
     override fun onResume() {
         super.onResume()
-        job = null
+        job = Job()
     }
 
     override fun onPause() {
         super.onPause()
-        job?.cancel()
-        job = null
+        job.cancel()
     }
 }
