@@ -34,8 +34,11 @@ dependencies {
     implementation("com.android.support:design:27.1.1")
     implementation(kotlin("stdlib-jdk7", KotlinCompilerVersion.VERSION))
 
+    // Picasso
     implementation("com.squareup.picasso:picasso:2.5.2")
 
+    // LiveData and ViewModel
+    implementation("android.arch.lifecycle:extensions:1.1.1")
 
     // Retrofit
     implementation("com.squareup.retrofit2:retrofit:2.4.0")

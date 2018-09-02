@@ -1,9 +1,11 @@
 package com.droidcba.kedditbysteps.features.news
 
+import android.arch.lifecycle.Observer
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.support.design.widget.Snackbar
+import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
@@ -11,19 +13,17 @@ import android.view.ViewGroup
 import com.droidcba.kedditbysteps.KedditApp
 import com.droidcba.kedditbysteps.R
 import com.droidcba.kedditbysteps.commons.InfiniteScrollListener
-import com.droidcba.kedditbysteps.commons.Logger
 import com.droidcba.kedditbysteps.commons.RedditNews
-import com.droidcba.kedditbysteps.commons.RxBaseFragment
+import com.droidcba.kedditbysteps.commons.ViewModelFactory
 import com.droidcba.kedditbysteps.commons.extensions.androidLazy
+import com.droidcba.kedditbysteps.commons.extensions.getViewModel
 import com.droidcba.kedditbysteps.commons.extensions.inflate
 import com.droidcba.kedditbysteps.features.news.adapter.NewsAdapter
 import com.droidcba.kedditbysteps.features.news.adapter.NewsDelegateAdapter
 import kotlinx.android.synthetic.main.news_fragment.*
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.launch
 import javax.inject.Inject
 
-class NewsFragment : RxBaseFragment(), NewsDelegateAdapter.onViewSelectedListener {
+class NewsFragment : Fragment(), NewsDelegateAdapter.onViewSelectedListener {
 
     override fun onItemSelected(url: String?) {
         if (url.isNullOrEmpty()) {
@@ -36,17 +36,40 @@ class NewsFragment : RxBaseFragment(), NewsDelegateAdapter.onViewSelectedListene
     }
 
     companion object {
-        private val KEY_REDDIT_NEWS = "redditNews"
+        private const val KEY_REDDIT_NEWS = "redditNews"
     }
 
-    @Inject
-    lateinit var newsManager: NewsManager
     private var redditNews: RedditNews? = null
     private val newsAdapter by androidLazy { NewsAdapter(this) }
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory<NewsManager>
+    private val newsViewModel by androidLazy {
+        getViewModel<NewsManager>(viewModelFactory)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         KedditApp.newsComponent.inject(this)
+
+        newsViewModel.newsState.observe(this, Observer<NewsState> {
+            manageState(it)
+        })
+    }
+
+    private fun manageState(kedditState: NewsState?) {
+        val state = kedditState ?: return
+        when (state) {
+            is NewsState.Success -> {
+                redditNews = state.redditNews
+                newsAdapter.addNews(state.redditNews.news)
+            }
+            is NewsState.Error -> {
+                Snackbar.make(news_list, state.message.orEmpty(), Snackbar.LENGTH_INDEFINITE)
+                        .setAction("RETRY") { requestNews() }
+                        .show()
+            }
+        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -88,21 +111,7 @@ class NewsFragment : RxBaseFragment(), NewsDelegateAdapter.onViewSelectedListene
          * Next time we will have redditNews set with the next page to
          * navigate with the 'after' param.
          */
-        launch(UI, parent = job) {
-            try {
-                Logger.dt("UI starting")
-                val retrievedNews = newsManager.getNews(redditNews?.after.orEmpty())
-                Logger.dt("UI end with result")
-                redditNews = retrievedNews
-                newsAdapter.addNews(retrievedNews.news)
-            } catch (e: Throwable) {
-                if (isVisible) {
-                    Snackbar.make(news_list, e.message.orEmpty(), Snackbar.LENGTH_INDEFINITE)
-                            .setAction("RETRY") { requestNews() }
-                            .show()
-                }
-            }
-        }
+        newsViewModel.fetchNews(redditNews?.after.orEmpty())
     }
 }
 

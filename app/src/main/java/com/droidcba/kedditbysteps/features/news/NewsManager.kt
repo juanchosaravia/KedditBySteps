@@ -1,36 +1,30 @@
 package com.droidcba.kedditbysteps.features.news
 
+import android.arch.lifecycle.MutableLiveData
+import android.arch.lifecycle.ViewModel
 import com.droidcba.kedditbysteps.api.NewsAPI
 import com.droidcba.kedditbysteps.api.RedditNewsResponse
-import com.droidcba.kedditbysteps.commons.Logger
 import com.droidcba.kedditbysteps.commons.RedditNews
 import com.droidcba.kedditbysteps.commons.RedditNewsItem
-import kotlinx.coroutines.experimental.CommonPool
-import kotlinx.coroutines.experimental.withContext
+import com.droidcba.kedditbysteps.commons.extensions.runAsync
 import javax.inject.Inject
-import javax.inject.Singleton
 
 /**
  * News Manager allows you to request news from Reddit API.
  *
  * @author juancho
  */
-@Singleton
-class NewsManager @Inject constructor(private val api: NewsAPI) {
+class NewsManager @Inject constructor(private val api: NewsAPI) : ViewModel() {
 
-    /**
-     *
-     * Returns Reddit News paginated by the given limit.
-     *
-     * @param after indicates the next page to navigate.
-     * @param limit the number of news to request.
-     */
-    suspend fun getNews(after: String, limit: String = "10"): RedditNews {
-        return withContext(CommonPool) {
-            Logger.dt("NewsManager: before API call")
+    val newsState: MutableLiveData<NewsState> = MutableLiveData()
+
+    fun fetchNews(after: String, limit: String = "10") = runAsync {
+        try {
             val result = api.getNews(after, limit).await()
-            Logger.dt("NewsManager: after API call")
-            process(result)
+            val news = process(result)
+            newsState.postValue(NewsState.Success(news))
+        } catch (e: Throwable) {
+            newsState.postValue(NewsState.Error(e.message))
         }
     }
 

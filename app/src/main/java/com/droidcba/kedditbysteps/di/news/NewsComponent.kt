@@ -7,15 +7,12 @@ import dagger.Component
 import javax.inject.Singleton
 
 /**
+ * News Component
  *
  * @author juancho.
  */
 @Singleton
-@Component(modules = arrayOf(
-        AppModule::class,
-        NewsModule::class,
-        NetworkModule::class)
-)
+@Component(modules = [AppModule::class, NewsModule::class, NetworkModule::class])
 interface NewsComponent {
 
     fun inject(newsFragment: NewsFragment)
