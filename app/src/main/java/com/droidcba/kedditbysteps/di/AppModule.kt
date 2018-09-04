@@ -5,7 +5,9 @@ import android.content.Context
 import com.droidcba.kedditbysteps.KedditApp
 import dagger.Module
 import dagger.Provides
+import kotlinx.coroutines.experimental.CommonPool
 import javax.inject.Singleton
+import kotlin.coroutines.experimental.CoroutineContext
 
 /**
  *
@@ -20,6 +22,8 @@ class AppModule(val app: KedditApp) {
 
     @Provides
     @Singleton
-    fun provideApplication() : Application = app
+    fun provideApplication(): Application = app
 
+    @Provides
+    fun provideCoroutineContext(): CoroutineContext = CommonPool
 }

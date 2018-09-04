@@ -6,19 +6,22 @@ import com.droidcba.kedditbysteps.api.NewsAPI
 import com.droidcba.kedditbysteps.api.RedditNewsResponse
 import com.droidcba.kedditbysteps.commons.RedditNews
 import com.droidcba.kedditbysteps.commons.RedditNewsItem
-import com.droidcba.kedditbysteps.commons.extensions.runAsync
+import kotlinx.coroutines.experimental.launch
 import javax.inject.Inject
+import kotlin.coroutines.experimental.CoroutineContext
 
 /**
- * News Manager allows you to request news from Reddit API.
+ * NewsViewModel allows you to request news from Reddit API.
  *
  * @author juancho
  */
-class NewsManager @Inject constructor(private val api: NewsAPI) : ViewModel() {
+class NewsViewModel @Inject constructor(
+        private val api: NewsAPI,
+        private val coroutineContext: CoroutineContext) : ViewModel() {
 
     val newsState: MutableLiveData<NewsState> = MutableLiveData()
 
-    fun fetchNews(after: String, limit: String = "10") = runAsync {
+    fun fetchNews(after: String, limit: String = "10") = launch(coroutineContext) {
         try {
             val result = api.getNews(after, limit).await()
             val news = process(result)

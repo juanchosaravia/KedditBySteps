@@ -43,9 +43,9 @@ class NewsFragment : Fragment(), NewsDelegateAdapter.onViewSelectedListener {
     private val newsAdapter by androidLazy { NewsAdapter(this) }
 
     @Inject
-    lateinit var viewModelFactory: ViewModelFactory<NewsManager>
+    lateinit var viewModelFactory: ViewModelFactory<NewsViewModel>
     private val newsViewModel by androidLazy {
-        getViewModel<NewsManager>(viewModelFactory)
+        getViewModel<NewsViewModel>(viewModelFactory)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

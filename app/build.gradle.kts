@@ -25,6 +25,11 @@ android {
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
         }
     }
+    testOptions {
+        unitTests.apply {
+            isReturnDefaultValues = true
+        }
+    }
     packagingOptions.exclude("META-INF/main.kotlin_module")
 }
 
@@ -32,7 +37,7 @@ dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     implementation("com.android.support:appcompat-v7:27.1.1")
     implementation("com.android.support:design:27.1.1")
-    implementation(kotlin("stdlib-jdk7", KotlinCompilerVersion.VERSION))
+    implementation(kotlin("stdlib-jdk8", KotlinCompilerVersion.VERSION))
 
     // Picasso
     implementation("com.squareup.picasso:picasso:2.5.2")
@@ -57,9 +62,10 @@ dependencies {
 
     // Tests
     testImplementation("junit:junit:4.12")
-    testImplementation("com.nhaarman.mockitokotlin2:mockito-kotlin:2.0.0-alpha04")
-    testImplementation("org.jetbrains.spek:spek:1.0.25")
-    testImplementation("org.jetbrains.kotlin:kotlin-stdlib:${KotlinCompilerVersion.VERSION}")
+    testImplementation("io.mockk:mockk:1.8.7")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:0.23.0")
+    testImplementation("android.arch.core:core-testing:1.1.1")
+    testImplementation(kotlin("stdlib-jdk8", KotlinCompilerVersion.VERSION))
 }
 
 repositories {
