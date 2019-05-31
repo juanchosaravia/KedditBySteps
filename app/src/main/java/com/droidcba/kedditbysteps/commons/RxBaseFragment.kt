@@ -1,20 +1,25 @@
 package com.droidcba.kedditbysteps.commons
 
+import android.os.Bundle
 import android.support.v4.app.Fragment
-import kotlinx.coroutines.experimental.Job
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlin.coroutines.CoroutineContext
 
-open class RxBaseFragment : Fragment() {
+open class RxBaseFragment : Fragment(), CoroutineScope {
+    override val coroutineContext: CoroutineContext
+        get() = job + Dispatchers.Main
 
-    protected var job: Job? = null
+    protected lateinit var job: Job
 
-    override fun onResume() {
-        super.onResume()
-        job = null
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        job = Job()
     }
 
-    override fun onPause() {
-        super.onPause()
-        job?.cancel()
-        job = null
+    override fun onDestroy() {
+        job.cancel()
+        super.onDestroy()
     }
 }

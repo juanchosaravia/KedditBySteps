@@ -6,9 +6,9 @@ package com.droidcba.kedditbysteps
 import com.droidcba.kedditbysteps.api.*
 import com.droidcba.kedditbysteps.features.news.NewsManager
 import com.nhaarman.mockitokotlin2.*
-import kotlinx.coroutines.experimental.CoroutineScope
-import kotlinx.coroutines.experimental.Unconfined
-import kotlinx.coroutines.experimental.runBlocking
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers.Unconfined
+import kotlinx.coroutines.runBlocking
 import org.junit.Test
 import java.util.*
 import kotlin.test.assertEquals
