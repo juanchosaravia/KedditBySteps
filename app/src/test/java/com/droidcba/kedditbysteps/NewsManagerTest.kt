@@ -39,7 +39,6 @@ class NewsManagerTest {
 
         // assert
         assertNotNull(redditNews)
-        assert(redditNews.news.count() > 0)
     }
 
     @Test

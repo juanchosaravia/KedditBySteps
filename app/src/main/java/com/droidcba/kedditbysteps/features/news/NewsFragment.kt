@@ -20,6 +20,7 @@ import com.droidcba.kedditbysteps.features.news.adapter.NewsDelegateAdapter
 import kotlinx.android.synthetic.main.news_fragment.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class NewsFragment : RxBaseFragment(), NewsDelegateAdapter.onViewSelectedListener {
@@ -87,11 +88,13 @@ class NewsFragment : RxBaseFragment(), NewsDelegateAdapter.onViewSelectedListene
          * Next time we will have redditNews set with the next page to
          * navigate with the 'after' param.
          */
-        launch {
+        launch(Dispatchers.IO) {
             try {
                 val retrievedNews = newsManager.getNews(redditNews?.after.orEmpty())
                 redditNews = retrievedNews
-                newsAdapter.addNews(retrievedNews.news)
+                withContext(Dispatchers.Main) {
+                    newsAdapter.addNews(retrievedNews.news)
+                }
             } catch (e: Throwable) {
                 if (isVisible) {
                     Snackbar.make(news_list, e.message.orEmpty(), Snackbar.LENGTH_INDEFINITE)
