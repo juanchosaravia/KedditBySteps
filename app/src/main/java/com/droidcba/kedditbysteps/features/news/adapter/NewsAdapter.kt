@@ -27,11 +27,11 @@ class NewsAdapter(listener: NewsDelegateAdapter.onViewSelectedListener) : Recycl
     override fun getItemCount(): Int = items.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-            delegateAdapters.get(viewType).onCreateViewHolder(parent)
+            delegateAdapters.get(viewType)!!.onCreateViewHolder(parent)
 
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        delegateAdapters.get(getItemViewType(position)).onBindViewHolder(holder, items[position])
+        delegateAdapters.get(getItemViewType(position))!!.onBindViewHolder(holder, items[position])
     }
 
     override fun getItemViewType(position: Int) = items[position].getViewType()

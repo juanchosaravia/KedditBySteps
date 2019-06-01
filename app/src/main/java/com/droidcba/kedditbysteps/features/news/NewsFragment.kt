@@ -18,8 +18,9 @@ import com.droidcba.kedditbysteps.commons.extensions.inflate
 import com.droidcba.kedditbysteps.features.news.adapter.NewsAdapter
 import com.droidcba.kedditbysteps.features.news.adapter.NewsDelegateAdapter
 import kotlinx.android.synthetic.main.news_fragment.*
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class NewsFragment : RxBaseFragment(), NewsDelegateAdapter.onViewSelectedListener {
@@ -38,7 +39,8 @@ class NewsFragment : RxBaseFragment(), NewsDelegateAdapter.onViewSelectedListene
         private val KEY_REDDIT_NEWS = "redditNews"
     }
 
-    @Inject lateinit var newsManager: NewsManager
+    @Inject
+    lateinit var newsManager: NewsManager
     private var redditNews: RedditNews? = null
     private val newsAdapter by androidLazy { NewsAdapter(this) }
 
@@ -86,16 +88,18 @@ class NewsFragment : RxBaseFragment(), NewsDelegateAdapter.onViewSelectedListene
          * Next time we will have redditNews set with the next page to
          * navigate with the 'after' param.
          */
-        job = launch(UI) {
+        launch(Dispatchers.IO) {
             try {
                 val retrievedNews = newsManager.getNews(redditNews?.after.orEmpty())
                 redditNews = retrievedNews
-                newsAdapter.addNews(retrievedNews.news)
+                withContext(Dispatchers.Main) {
+                    newsAdapter.addNews(retrievedNews.news)
+                }
             } catch (e: Throwable) {
                 if (isVisible) {
                     Snackbar.make(news_list, e.message.orEmpty(), Snackbar.LENGTH_INDEFINITE)
-                            .setAction("RETRY") { requestNews() }
-                            .show()
+                        .setAction("RETRY") { requestNews() }
+                        .show()
                 }
             }
         }
