@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId "com.droidcba.kedditbysteps"
-        minSdkVersion 16
+        minSdkVersion 17
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -41,18 +41,25 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'com.squareup.picasso:picasso:2.71828'
 
-    def nav_version_ktx = "2.1.0-beta02"
-    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version_ktx"
-    implementation "androidx.navigation:navigation-ui-ktx:$nav_version_ktx"
+    // livedata & viewmodel
+    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
+
+    // lifecycle
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
+    annotationProcessor "android.arch.lifecycle:compiler:$lifecycle_version"
 
     // Retrofit
-    implementation 'com.squareup.retrofit2:retrofit:2.5.0'
-    implementation 'com.squareup.retrofit2:converter-moshi:2.5.0'
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-moshi:$retrofit_version"
 
     // Dagger 2
-    implementation "com.google.dagger:dagger:$dagger2Version"
-    kapt "com.google.dagger:dagger-compiler:$dagger2Version"
+    implementation "com.google.dagger:dagger:$dagger2_version"
+    kapt "com.google.dagger:dagger-compiler:$dagger2_version"
     compileOnly 'org.glassfish:javax.annotation:10.0-b28'
+
+    // okhttp
+    implementation "com.squareup.okhttp3:okhttp:$okhttp_version"
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.10.0'
 
     // Coroutines
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.2.2"
@@ -63,8 +70,8 @@ dependencies {
     // Tests
     testImplementation 'junit:junit:4.12'
     testImplementation 'com.nhaarman.mockitokotlin2:mockito-kotlin:2.1.0'
-    testImplementation "org.jetbrains.spek:spek-api:$spekVersion"
-    testImplementation "org.jetbrains.spek:spek-junit-platform-engine:$spekVersion"
+    testImplementation "org.jetbrains.spek:spek-api:$spek_version"
+    testImplementation "org.jetbrains.spek:spek-junit-platform-engine:$spek_version"
     testImplementation "org.junit.platform:junit-platform-runner:$junitPlatformVersion"
 
     testImplementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"

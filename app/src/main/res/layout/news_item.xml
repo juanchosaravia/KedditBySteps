@@ -15,7 +15,8 @@
         android:layout_marginBottom="5dp"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
-        android:layout_marginTop="10dp" />
+        android:layout_marginTop="10dp"
+        tools:ignore="ContentDescription" />
 
     <!-- Description -->
 
@@ -24,7 +25,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/img_thumbnail"
-        android:layout_toRightOf="@+id/img_thumbnail"
+        android:layout_toEndOf="@+id/img_thumbnail"
         android:textColor="#040404"
         android:textSize="15sp"
         android:textStyle="bold"
@@ -37,7 +38,6 @@
         android:id="@+id/author"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/description"
         android:layout_alignStart="@+id/description"
         android:layout_below="@+id/description"
         android:textColor="#343434"
@@ -52,9 +52,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignEnd="@+id/author"
-        android:layout_alignRight="@+id/author"
         android:layout_below="@+id/description"
-        android:gravity="right"
+        android:gravity="end"
         android:textColor="#10bcc9"
         android:textSize="10sp"
         android:textStyle="bold"
@@ -67,7 +66,6 @@
         android:id="@+id/time"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/author"
         android:layout_alignStart="@+id/author"
         android:layout_below="@+id/author"
         android:textColor="#343434"

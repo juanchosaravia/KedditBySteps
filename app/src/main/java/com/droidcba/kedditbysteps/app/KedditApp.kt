@@ -1,7 +1,6 @@
-package com.droidcba.kedditbysteps
+package com.droidcba.kedditbysteps.app
 
 import android.app.Application
-import com.droidcba.kedditbysteps.di.AppModule
 import com.droidcba.kedditbysteps.di.news.DaggerNewsComponent
 import com.droidcba.kedditbysteps.di.news.NewsComponent
 class KedditApp : Application() {
