@@ -3,7 +3,7 @@
 A small Reddit Android client developed using Kotlin
 
 ## Tutorial
-https://android.jlelse.eu/learn-kotlin-while-developing-an-android-app-introduction-567e21ff9664
+Original from this tutorial: https://android.jlelse.eu/learn-kotlin-while-developing-an-android-app-introduction-567e21ff9664
 
 ## Libraries used:
 - Retrofit 2.0
@@ -11,3 +11,7 @@ https://android.jlelse.eu/learn-kotlin-while-developing-an-android-app-introduct
 - Picasso
 - Dagger 2
 - Kotlin Android Extensions
+
+## Update
+- Lifecycle aware 
+- TODO: Use ViewModel, Paging
