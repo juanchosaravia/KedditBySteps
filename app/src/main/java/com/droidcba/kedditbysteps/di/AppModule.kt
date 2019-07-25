@@ -7,10 +7,6 @@ import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
 
-/**
- *
- * @author juancho.
- */
 @Module
 class AppModule(val app: KedditApp) {
 

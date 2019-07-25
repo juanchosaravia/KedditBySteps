@@ -1,11 +1,8 @@
 package com.droidcba.kedditbysteps.commons.adapter
 
-import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
 
 interface ViewTypeDelegateAdapter {
-
-    fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder
-
-    fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: ViewType)
+    fun onCreateViewHolder(parent: ViewGroup): androidx.recyclerview.widget.RecyclerView.ViewHolder
+    fun onBindViewHolder(holder: androidx.recyclerview.widget.RecyclerView.ViewHolder, item: ViewType)
 }

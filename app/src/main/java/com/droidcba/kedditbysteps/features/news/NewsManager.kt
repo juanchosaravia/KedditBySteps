@@ -7,11 +7,6 @@ import com.droidcba.kedditbysteps.commons.RedditNewsItem
 import javax.inject.Inject
 import javax.inject.Singleton
 
-/**
- * News Manager allows you to request news from Reddit API.
- *
- * @author juancho
- */
 @Singleton
 class NewsManager @Inject constructor(private val api: NewsAPI) {
 

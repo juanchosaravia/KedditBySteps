@@ -6,18 +6,12 @@ import com.droidcba.kedditbysteps.features.news.NewsFragment
 import dagger.Component
 import javax.inject.Singleton
 
-/**
- *
- * @author juancho.
- */
 @Singleton
 @Component(modules = arrayOf(
-        AppModule::class,
-        NewsModule::class,
-        NetworkModule::class)
+    AppModule::class,
+    NewsModule::class,
+    NetworkModule::class)
 )
 interface NewsComponent {
-
     fun inject(newsFragment: NewsFragment)
-
 }

@@ -1,6 +1,6 @@
 package com.droidcba.kedditbysteps.features.news.adapter
 
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.ViewGroup
 import com.droidcba.kedditbysteps.R
 import com.droidcba.kedditbysteps.commons.RedditNewsItem
@@ -17,16 +17,16 @@ class NewsDelegateAdapter(val viewActions: onViewSelectedListener) : ViewTypeDel
         fun onItemSelected(url: String?)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup): androidx.recyclerview.widget.RecyclerView.ViewHolder {
         return NewsViewHolder(parent)
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: ViewType) {
+    override fun onBindViewHolder(holder: androidx.recyclerview.widget.RecyclerView.ViewHolder, item: ViewType) {
         holder as NewsViewHolder
         holder.bind(item as RedditNewsItem)
     }
 
-    inner class NewsViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
+    inner class NewsViewHolder(parent: ViewGroup) : androidx.recyclerview.widget.RecyclerView.ViewHolder(
             parent.inflate(R.layout.news_item)) {
 
         private val imgThumbnail = itemView.img_thumbnail

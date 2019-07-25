@@ -4,11 +4,6 @@ import android.app.Application
 import com.droidcba.kedditbysteps.di.AppModule
 import com.droidcba.kedditbysteps.di.news.DaggerNewsComponent
 import com.droidcba.kedditbysteps.di.news.NewsComponent
-
-/**
- *
- * @author juancho.
- */
 class KedditApp : Application() {
 
     companion object {

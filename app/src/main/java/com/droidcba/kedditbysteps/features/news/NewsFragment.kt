@@ -3,8 +3,8 @@ package com.droidcba.kedditbysteps.features.news
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.support.design.widget.Snackbar
-import android.support.v7.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -58,7 +58,7 @@ class NewsFragment : RxBaseFragment(), NewsDelegateAdapter.onViewSelectedListene
 
         news_list.apply {
             setHasFixedSize(true)
-            val linearLayout = LinearLayoutManager(context)
+            val linearLayout = androidx.recyclerview.widget.LinearLayoutManager(context)
             layoutManager = linearLayout
             clearOnScrollListeners()
             addOnScrollListener(InfiniteScrollListener({ requestNews() }, linearLayout))
