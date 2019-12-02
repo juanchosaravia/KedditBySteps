@@ -10,18 +10,14 @@ class InfiniteScrollListener(
 
     private var previousTotal = 0
     private var loading = true
-    private var visibleThreshold = 2
-    private var firstVisibleItem = 0
-    private var visibleItemCount = 0
-    private var totalItemCount = 0
 
     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
         super.onScrolled(recyclerView, dx, dy)
 
         if (dy > 0) {
-            visibleItemCount = recyclerView.childCount
-            totalItemCount = layoutManager.itemCount
-            firstVisibleItem = layoutManager.findFirstVisibleItemPosition()
+            val visibleItemCount = recyclerView.childCount
+            val totalItemCount = layoutManager.itemCount
+            val firstVisibleItem = layoutManager.findFirstVisibleItemPosition()
 
             if (loading) {
                 if (totalItemCount > previousTotal) {
@@ -30,7 +26,7 @@ class InfiniteScrollListener(
                 }
             }
             if (!loading && (totalItemCount - visibleItemCount)
-                    <= (firstVisibleItem + visibleThreshold)) {
+                    <= (firstVisibleItem + VISIBLE_THRESHOLD)) {
                 // End has been reached
                 Log.i("InfiniteScrollListener", "End reached")
                 func()
@@ -39,4 +35,7 @@ class InfiniteScrollListener(
         }
     }
 
+    companion object {
+        const val VISIBLE_THRESHOLD = 2
+    }
 }
